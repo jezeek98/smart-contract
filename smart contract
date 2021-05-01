@@ -1,0 +1,95 @@
+pragma solidity ^0.5.9;
+contract AliceBobHouseTradingSmartContract  {
+    //set 5 account address
+    address public pool;
+    address private Alice;
+    address private Bob;
+    address private Victor;
+    address private ABClimited;
+    mapping (address => uint) public balances;
+    // set all address as pool adress at first 
+    constructor() public {
+       pool = msg.sender;
+       Alice = msg.sender;
+       Bob = msg.sender;
+       Victor = msg.sender;
+       ABClimited = msg.sender;
+    }
+   // HouseSeller set account 
+    function HouseSeller(address newOwner1) public {
+        while (Alice == pool){
+        Alice = newOwner1;
+        }
+
+    }
+    // HouseBuyer set account and make the first payment
+    function HouseBuyer(address newOwner2) public {
+       while (Bob == pool){
+        Bob = newOwner2;
+        }
+        balances[msg.sender] += 150;
+        balances[msg.sender] -= 150;
+        balances[pool] += 150;
+        
+    }
+    // RiskFreeInvestor set account and make invest 
+     function RiskFreeInvestor(address newOwner3) public {
+        while (Victor == pool){
+         Victor = newOwner3;
+         }
+         balances[msg.sender] += 50;
+         balances[msg.sender] -= 50;
+         balances[pool] +=50;
+    }
+    // RiskTakenCompany set account and make guarantee 
+    function RiskTakenCompany(address newOwner4) public {
+       while (ABClimited == pool){
+        ABClimited = newOwner4;
+         }
+        balances[msg.sender] += 50;
+        balances[msg.sender] -= 50;
+        balances[pool] +=50;
+        
+    }
+    // check HouseSeller's address
+     function HouseSellerConfirm() public view returns (address) {
+        if (msg.sender == Alice)
+        return Alice;
+            
+    } 
+    // check HouseBuyer's address
+     function HouseBuyerConfirm() public view returns (address) {
+        if (msg.sender == Bob)return Bob;
+            
+    }   
+    // check RiskFreeInvestor's address
+    function RiskFreeInvestorConfirm() public view returns (address) {
+        if (msg.sender == Victor)return Victor;
+            
+    }
+    // check RiskTakenCompany's address
+    function RiskTakenCompanyConfirm() public view returns (address) {
+        if (msg.sender == ABClimited)return ABClimited;
+    }
+    // payment way
+    function PaymentChannel(address , uint256 a) public  {
+        if (msg.sender == Alice){
+            balances[Alice] += 200;
+            balances[pool] -= 200;
+        } 
+        
+        if (msg.sender == Bob && a<0){
+            balances[Bob] += a;
+            balances[pool] -=a;
+        }
+        if (msg.sender == Victor){
+            balances[Victor] += a;
+            balances[pool] -=a;
+        }
+        if (msg.sender == ABClimited){
+            balances[ABClimited] += a;
+            balances[pool] -=a;
+        }
+    }
+
+}
